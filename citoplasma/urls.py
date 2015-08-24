@@ -4,7 +4,7 @@ from settings import config
 
 #Simple method for make urls
 
-def make_url(module, controller, method, query_args={}):
+def make_url(path, query_args={}):
     
     """
         This is a method for create urls for the system
@@ -24,7 +24,7 @@ def make_url(module, controller, method, query_args={}):
         
         get_query='?'+"&amp;".join( [x+'='+y for x,y in query_args.items()] )
     
-    return config.base_url+module+'/'+controller+'/'+method+get_query
+    return config.base_url+path+get_query
 
 if config.yes_static==True:
     

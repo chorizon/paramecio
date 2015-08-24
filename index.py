@@ -35,37 +35,72 @@ else:
     def add_func_static_module(module):
         pass
 
+routes={}
+
 @route("/")
-@route("/<module>")
-@route("/<module>/<controller>")
+#@route("/<module>")
+#@route("/<module>/<controller>")
+
 def index(**args):
+    """
     
-    if not "module" in args:
-        args["module"]=config.default_module
     
     if not "controller" in args:
         args["controller"]="index"
     
-    arr_func=request['bottle.route'].rule.split('/',maxsplit=4)
+    arr_func=request['bottle.route'].rule.split('/')
     
-    if len(arr_func)>=4:
-        args["func"]=arr_func[3]
+    #arr_func.remove(0)
+    
+    num_args=len(arr_func)
+    
+    extra_dir=''
+    
+    if num_args>=4:
+        
+        args["func"]=arr_func[3]+extra_dir
     else:
         args["func"]="home"
     
+    
+    if not "func" in args:
+        args["func"]="home"
     """
+    """
+    print(request['bottle.route'].rule)
+    
+    if not "module" in args:
+        args["module"]=config.default_module
+        
+    if not "controller" in args:
+        args["controller"]="index"
+        
     if not "func" in args:
         args["func"]="home"
     """
     
+    page_loader=''
+    method_loader=''
+    rule=request['bottle.route'].rule
+    
+    if rule=="/":
+        page_loader=config.base_modules+'.'+config.default_module+'.index'
+        method_loader='home'
+    elif rule in routes.keys():
+        method_loader=os.path.basename(routes[rule].replace('.', '/'))
+        page_loader=routes[rule].replace('.'+method_loader, '')
+        
+    
     #Import function from module
     
+    """
     if not args["module"] in config.modules:
         abort(404, "Page not found")
+    """
     
     try:
     
-        module=import_module(config.base_modules+'.'+args["module"]+'.'+args["controller"])
+        module=import_module(page_loader)
     
     except:
         print("Exception in user code:")
@@ -74,13 +109,23 @@ def index(**args):
         print("-"*60)
         abort(404, "Page not found")
     
-    func=getattr(module, args["func"])
+    try:
     
+        func=getattr(module, method_loader)
+        
+    except:
+        print("Exception in user code:")
+        print("-"*60)
+        traceback.print_exc(file=sys.stdout)
+        print("-"*60)
+        abort(404, "Page not found")
     # Cleaning args of module, controller and func
     
+    """"
     del args['module'];
     del args['controller'];
     del args['func'];
+    """
     
     return func(request, **args)
 
@@ -92,15 +137,19 @@ for module in config.modules:
         
         urls=import_module(config.base_modules+'.'+module+'.urls')
         
-        for module, turl in urls.urls.items():
+        for method, turl in urls.urls.items():
             
             for url in turl:
-            
-                final_route="/<module>/<controller>/"+module+url[1]
+                
+                final_route="/"+module+method+url[1]
                 
                 func_route=getattr(sys.modules[__name__], url[0]);
                 
                 index=func_route(final_route)(index)       
+                
+                #Add routes to dictionary routes
+               
+                routes[final_route]=config.base_modules+'.'+url[2]
                 
                 add_func_static_module(module)
 

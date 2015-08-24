@@ -15,5 +15,5 @@ def page(request, **args):
 
 def test(request, **args):
     
-    return make_url('app', 'page', 'index', {'pepe': 'pepo', 'pepa':'pipa'})
+    return make_url('welcome/test/5', {'pepe': 'pepo', 'pepa':'pipa'})
 
