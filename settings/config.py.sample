@@ -1,0 +1,44 @@
+#!/usr/bin/python3
+
+#server_used="wsgiref"
+
+#Host/IP where bind the server
+
+host='localhost'
+
+#The theme by default
+
+theme='default'
+
+#Base directory for save modules
+
+base_modules="modules"
+
+#Type server used for connect to the internet...
+
+server_used="wsgiref"
+
+#Module showed in index
+
+default_module="welcome"
+
+#Modules with permissions to access for users
+
+modules=['welcome']
+
+#Tmp for sessions
+
+session_tmp="./tmp"
+
+#The base url 
+
+base_url='/'
+
+#Can be absolute or relative
+
+media_url='/'
+
+#WARNING: only use this feature in development, not in production.
+
+yes_static=True
+

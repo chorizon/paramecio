@@ -1,0 +1,9 @@
+*~
+*.pyc
+__pycache__
+modules/*
+!modules/welcome
+settings/*
+!settings/config.py.sample
+themes/*
+!themes/default/
