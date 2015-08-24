@@ -112,7 +112,7 @@ for module in config.modules:
         print("-"*60)
 
 if __name__ == "__main__":
-    run(host=config.host, server=config.server_used, port=8080, debug=True, reloader=True)
+    run(host=config.host, server=config.server_used, port=8080, debug=config.debug, reloader=config.reloader)
 
 app = default_app()
 

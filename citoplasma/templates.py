@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from jinja2 import Template, Environment, FileSystemLoader
+from citoplasma.urls import make_url, make_media_url, make_media_url_module
 from settings import config
 
 # Preparing envs for views of modules, and views of 
@@ -19,6 +20,14 @@ class ptemplate:
     def __init__(self, module):
         
         self.env=self.env_theme(module)
+        
+        #Adding basic filters for urls
+        
+        self.add_filter(make_url)
+        
+        self.add_filter(make_media_url)
+        
+        self.add_filter(make_media_url_module)
     
     def guess_autoescape(self, template_name):
         
