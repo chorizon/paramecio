@@ -45,10 +45,19 @@ def index(**args):
     
     if not "controller" in args:
         args["controller"]="index"
-        
+    
+    arr_func=request['bottle.route'].rule.split('/',maxsplit=4)
+    
+    if len(arr_func)>=4:
+        args["func"]=arr_func[3]
+    else:
+        args["func"]="home"
+    
+    """
     if not "func" in args:
         args["func"]="home"
-        
+    """
+    
     #Import function from module
     
     if not args["module"] in config.modules:
