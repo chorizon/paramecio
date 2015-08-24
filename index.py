@@ -87,7 +87,7 @@ for module in config.modules:
             
             for url in turl:
             
-                final_route="/<module>/<controller>/<func>"+url[1]
+                final_route="/<module>/<controller>/"+module+url[1]
                 
                 func_route=getattr(sys.modules[__name__], url[0]);
                 
