@@ -163,6 +163,9 @@ for module in config.modules:
 
 app = default_app()
 
+if config.session_activated==True:
+    app = SessionMiddleware(app, config.session_opts)
+
 if __name__ == "__main__":
     run(app=app, host=config.host, server=config.server_used, port=8080, debug=config.debug, reloader=config.reloader)
 
