@@ -39,7 +39,7 @@ class ptemplate:
 
     def env_theme(self, module):
 
-        theme_templates='themes/'+config.theme
+        theme_templates='themes/'+config.theme+'/templates'
 
         module_templates=config.base_modules+'/'+module+'/templates'
 
