@@ -109,10 +109,10 @@ def index(**args):
         if config.reloader==True:
             
             if module_loaded==None:
-                print('primera carga')
+                
                 module_loaded=import_module(page_loader)
             else:
-                print('segunda carga')
+                
                 reload(module_loaded)
                 
         else:

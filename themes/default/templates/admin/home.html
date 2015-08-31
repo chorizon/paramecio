@@ -214,7 +214,10 @@
                 </div>
                 <!-- Page Heading -->
                 {% for user in users %}
-                    {{user}} 
+                    <p>{{user.username}}</p>
+                {% endfor %}
+                {% for form in forms.values() %}
+                    <p><label="{{form.name}}">{{form.label}}</label>: {{form.form()|safe}}</p>
                 {% endfor %}
             </div>
             <!-- /.container-fluid -->
