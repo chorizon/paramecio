@@ -1,5 +1,5 @@
 import os, sys, traceback
-from importlib import import_module
+from importlib import import_module, reload
 from bottle import route, get, post, run, default_app, abort, request, static_file
 from settings import config
 from beaker.middleware import SessionMiddleware
@@ -38,11 +38,16 @@ else:
 
 routes={}
 
+module_loaded=None
+
 @route("/")
 #@route("/<module>")
 #@route("/<module>/<controller>")
 
 def index(**args):
+    
+    global module_loaded
+    
     """
     
     
@@ -100,8 +105,19 @@ def index(**args):
     """
     
     try:
+        
+        if config.reloader==True:
+            
+            if module_loaded==None:
+                print('primera carga')
+                module_loaded=import_module(page_loader)
+            else:
+                print('segunda carga')
+                reload(module_loaded)
+                
+        else:
     
-        module=import_module(page_loader)
+            module_loaded=import_module(page_loader)
     
     except:
         print("Exception in user code:")
@@ -112,7 +128,7 @@ def index(**args):
     
     try:
     
-        func=getattr(module, method_loader)
+        func=getattr(module_loaded, method_loader)
         
     except:
         print("Exception in user code:")
@@ -164,9 +180,14 @@ for module in config.modules:
 app = default_app()
 
 if config.session_activated==True:
+    #Create dir for sessions
+    
+    if not os.path.isdir(config.session_opts['session.data_dir']):
+        os.makedirs(config.session_opts['session.data_dir'], 0o700, True)
+    
     app = SessionMiddleware(app, config.session_opts)
 
 if __name__ == "__main__":
-    run(app=app, host=config.host, server=config.server_used, port=8080, debug=config.debug, reloader=config.reloader)
+    run(app=app, host=config.host, server=config.server_used, port=config.port, debug=config.debug, reloader=config.reloader)
 
 

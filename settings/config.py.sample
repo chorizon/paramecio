@@ -1,8 +1,16 @@
 #!/usr/bin/python3
 
+from cromosoma.webmodel import WebModel
+
 #server_used="wsgiref"
 
 #Host/IP where bind the server
+
+port=8080
+
+debug=True
+
+reloader=True
 
 host='localhost'
 
@@ -24,11 +32,20 @@ default_module="welcome"
 
 #Modules with permissions to access for users
 
-modules=['welcome']
+modules=['welcome', 'admin']
 
-#Tmp for sessions
+#Activate sessions?
 
-session_tmp="./tmp"
+session_activated=True
+
+#Variables for beaker sessions
+
+session_opts = {
+    'session.type': 'file',
+    'session.cookie_expires': False,
+    'session.data_dir': './sessions',
+    'session.auto': True
+}
 
 #The base url 
 
@@ -41,4 +58,9 @@ media_url='/'
 #WARNING: only use this feature in development, not in production.
 
 yes_static=True
+
+#Database config, if you want anything...
+
+WebModel.connections={'default': {'name': 'default', 'host': 'localhost', 'user': 'root', 'password': 'sirena', 'db': 'cromosoma', 'charset': 'utf8mb4', 'set_connection': False} }
+
 
