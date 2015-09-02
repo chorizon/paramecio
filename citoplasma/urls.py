@@ -26,6 +26,15 @@ def make_url(path, query_args={}):
     
     return config.base_url+path+get_query
 
+def add_get_parameters(url, query_args={}):
+    
+    added_url='?'
+    
+    if url.find('?'):
+        added_url=''
+    
+    return url+added_url+"&amp;".join( [x+'='+y for x,y in query_args.items()] )
+
 if config.yes_static==True:
     
     def make_media_url(file_path):

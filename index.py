@@ -179,13 +179,13 @@ for module in config.modules:
 
 app = default_app()
 
-if config.session_activated==True:
+#if config.session_activated==True:
     #Create dir for sessions
     
-    if not os.path.isdir(config.session_opts['session.data_dir']):
-        os.makedirs(config.session_opts['session.data_dir'], 0o700, True)
-    
-    app = SessionMiddleware(app, config.session_opts)
+if not os.path.isdir(config.session_opts['session.data_dir']):
+    os.makedirs(config.session_opts['session.data_dir'], 0o700, True)
+
+app = SessionMiddleware(app, config.session_opts)
 
 if __name__ == "__main__":
     run(app=app, host=config.host, server=config.server_used, port=config.port, debug=config.debug, reloader=config.reloader)
