@@ -2,11 +2,7 @@
 
 from math import ceil, floor
 from citoplasma.urls import add_get_parameters
-#from citoplasma.i18n import lang
-import gettext
-gettext.bindtextdomain('common', 'i18n')
-gettext.textdomain('common')
-_ = gettext.gettext
+from citoplasma.i18n import I18n
 
 class Pages: 
 
@@ -14,7 +10,7 @@ class Pages:
 
     @staticmethod
     def show( begin_page, total_elements, num_elements, link ,initial_num_pages=20, variable='begin_page', label='', func_jscript=''):
-
+        
         pages='';
 
         if begin_page>total_elements:
@@ -46,31 +42,29 @@ class Pages:
             last_page=total_elements
 
         if initial_page>0:
-            initial_link=add_get_parameters(link, {variable: 0});
-            middle_link=add_get_parameters(link, {variable: (initial_page-num_elements).label} );
-            pages += "<a class=\""+self.css_class+"\" href=\"initial_link\" onclick=\"func_jscript\">1</a> <a class=\""+self.css_class+"\" href=\"middle_link\">&lt;&lt;</a> "
+            initial_link=add_get_parameters(link, {variable: '0'});
+            middle_link=add_get_parameters(link, {variable: str((initial_page-num_elements)) } );
+            pages += "<a class=\""+Pages.css_class+"\" href=\""+initial_link+"\" onclick=\"func_jscript\">1</a> <a class=\""+Pages.css_class+"\" href=\""+middle_link+"\">&lt;&lt;</a> "
 
         arr_pages={}
 
         #for(x=initial_page;x<last_page;x+=num_elements)
-        for x in range(initial_page, last_page):
+        for x in range(initial_page, last_page, num_elements):
             
-            middle_link=add_get_parameters(link, {variable: x.label} )
+            middle_link=add_get_parameters(link, {variable: str(x)} )
 
             num_page=ceil(x/num_elements)+1;
-            arr_pages[x]="<a class=\""+self.css_class+"\" href=\"middle_link\" onclick=\"func_jscript\">num_page</a> "
-            arr_pages[begin_page]='<span class="selected_page">'+num_page+'</span> ';
+            arr_pages[x]="<a class=\""+Pages.css_class+"\" href=\""+middle_link+"\" onclick=\"func_jscript\">"+str(num_page)+"</a> "
+            arr_pages[begin_page]='<span class="selected_page">'+str(num_page)+'</span> ';
             pages += arr_pages[x]
-            
-            x+=num_elements
 
         
         if last_page<total_elements:
 
-            middle_link=add_get_parameters(link, {variable: x.label} );
-            last_link=add_get_parameters(link, {variable: ( ( total_page*num_elements ) - num_elements) } )
+            middle_link=add_get_parameters(link, {variable: str(x+num_elements)} );
+            last_link=add_get_parameters(link, {variable: str( ( ( total_page*num_elements ) - num_elements) ) } )
 
-            pages += "<a class=\""+self.css_class+"\" href=\"middle_link\" onclick=\"func_jscript\">&gt;&gt;</a> <a class=\"link_pages\" href=\"last_link\" onclick=\"func_jscript\">"+_('common', 'last', 'Last')+"</a>"
+            pages += "<a class=\""+Pages.css_class+"\" href=\""+middle_link+"\" onclick=\"func_jscript\">&gt;&gt;</a> <a class=\"link_pages\" href=\""+last_link+"\" onclick=\"func_jscript\">"+I18n.lang('common', 'last', 'Last')+"</a>"
 
         
         return pages

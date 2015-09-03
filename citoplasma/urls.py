@@ -28,10 +28,10 @@ def make_url(path, query_args={}):
 
 def add_get_parameters(url, query_args={}):
     
-    added_url='?'
+    added_url=''
     
-    if url.find('?'):
-        added_url=''
+    if url.find('?')==-1:
+        added_url='?'
     
     return url+added_url+"&amp;".join( [x+'='+y for x,y in query_args.items()] )
 
