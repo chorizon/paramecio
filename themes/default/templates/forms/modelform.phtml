@@ -1,0 +1,9 @@
+<div class="form">
+    {% for form in forms.values() %}
+        {% if form.type!='hidden' %}
+            <p><label>{{form.label}}</label>{{form.form()}}</p>
+        {% else %}
+            {{form.form()}}
+        {% endif %}
+    {% endfor %}
+</div>

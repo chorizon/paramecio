@@ -1,0 +1,17 @@
+<table class="table_list">
+    <tr class="title_list">
+        {% for field in simplelist.fields %}
+        <td>{{simplelist.model.forms[field].label}}</td>
+        {% endfor %}
+    </tr>
+    {% for row in list %}
+    <tr class="row_list">
+        {% for field in simplelist.fields %}
+            <td>{{row[field]}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+<p>
+{{pages}}
+</p>
