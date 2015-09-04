@@ -2,18 +2,25 @@
 
 from citoplasma.templates import ptemplate
 from citoplasma.urls import make_url
+from bottle import route, request
+from settings import config
 
 t=ptemplate('welcome')
-
-def home(request, **args):
+@route('/welcome')
+def home():
 
     return t.load_template('welcome.html', title="Welcome to Paramecio!!!", content="The simple web framework writed in Python3!!!")
 
-def page(request, **args):
+@route('/welcome/<id:int>')
+def page(id):
     
-    return t.load_template('index.html', title="A simple example of a page", id=str(args['id']), value=request.query.value)
+    return t.load_template('index.html', title="A simple example of a page", id=id, value=request.query.value)
 
-def test(request, **args):
+@route('/welcome/test/<id:int>')
+def test(id):
     
     return make_url('welcome/test/5', {'pepe': 'pepo', 'pepa':'pipa'})
 
+if config.default_module=="welcome":
+
+    home = route("/")(home)

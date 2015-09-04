@@ -39,13 +39,11 @@ else:
 routes={}
 
 module_loaded=None
-
+"""
 @route("/")
-#@route("/<module>")
-#@route("/<module>/<controller>")
-
-def index(**args):
-    
+def index():
+""" 
+"""
     global module_loaded
     
     page_loader=''
@@ -95,9 +93,9 @@ def index(**args):
         print("-"*60)
         abort(404, "Page not found")
     
-    args['session']=load_session()
+    args['session']=load_session()"""
     
-    return func(request, **args)
+    #return "Esto es el index"
 
 #Import config urls 
 
@@ -105,8 +103,21 @@ for module in config.modules:
     
     try:
         
-        urls=import_module(config.base_modules+'.'+module+'.urls')
+        dir_controllers=os.listdir(config.base_modules.replace('.', '/')+'/'+module)
         
+        #arr_views=[x for x in dir_modules if x.find('.py')!=-1 and x.find('__init__')==-1]
+        
+        for controller in dir_controllers:
+            if controller.find('.py')!=-1 and controller.find('__init__')==-1:
+                controller=controller.replace('.py', '')
+                controllers=import_module(config.base_modules+'.'+module+'.'+controller)
+        #print(arr_views)
+        
+        add_func_static_module(module)
+        
+        #urls=import_module(config.base_modules+'.'+module+'.urls')
+        
+        """
         for method, turl in urls.urls.items():
             
             for url in turl:
@@ -122,7 +133,7 @@ for module in config.modules:
                 routes[final_route]=config.base_modules+'.'+url[2]
                 
                 add_func_static_module(module)
-
+        """
     except:
         
         print("Exception in user code:")
@@ -141,7 +152,7 @@ if config.session_enabled==True:
     app = SessionMiddleware(app, config.session_opts, environ_key=config.cookie_name)
     
     def load_session():
-        return request.environ.get('paramecio.session')
+        return request.environ.get(config.cookie_name)
 else:
     def load_session():
         return None
