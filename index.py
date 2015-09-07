@@ -151,12 +151,6 @@ if config.session_enabled==True:
 
     app = SessionMiddleware(app, config.session_opts, environ_key=config.cookie_name)
     
-    def load_session():
-        return request.environ.get(config.cookie_name)
-else:
-    def load_session():
-        return None
-
 if __name__ == "__main__":
     run(app=app, host=config.host, server=config.server_used, port=config.port, debug=config.debug, reloader=config.reloader)
 

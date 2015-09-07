@@ -42,8 +42,8 @@ class Pages:
             last_page=total_elements
 
         if initial_page>0:
-            initial_link=add_get_parameters(link, {variable: '0'});
-            middle_link=add_get_parameters(link, {variable: str((initial_page-num_elements)) } );
+            initial_link=add_get_parameters(link, **{variable: '0'});
+            middle_link=add_get_parameters(link, **{variable: str((initial_page-num_elements)) } );
             pages += "<a class=\""+Pages.css_class+"\" href=\""+initial_link+"\" onclick=\"func_jscript\">1</a> <a class=\""+Pages.css_class+"\" href=\""+middle_link+"\">&lt;&lt;</a> "
 
         arr_pages={}
@@ -51,7 +51,7 @@ class Pages:
         #for(x=initial_page;x<last_page;x+=num_elements)
         for x in range(initial_page, last_page, num_elements):
             
-            middle_link=add_get_parameters(link, {variable: str(x)} )
+            middle_link=add_get_parameters(link, **{variable: str(x)} )
 
             num_page=ceil(x/num_elements)+1;
             arr_pages[x]="<a class=\""+Pages.css_class+"\" href=\""+middle_link+"\" onclick=\"func_jscript\">"+str(num_page)+"</a> "
@@ -61,8 +61,8 @@ class Pages:
         
         if last_page<total_elements:
 
-            middle_link=add_get_parameters(link, {variable: str(x+num_elements)} );
-            last_link=add_get_parameters(link, {variable: str( ( ( total_page*num_elements ) - num_elements) ) } )
+            middle_link=add_get_parameters(link, **{variable: str(x+num_elements)} );
+            last_link=add_get_parameters(link, **{variable: str( ( ( total_page*num_elements ) - num_elements) ) } )
 
             pages += "<a class=\""+Pages.css_class+"\" href=\""+middle_link+"\" onclick=\"func_jscript\">&gt;&gt;</a> <a class=\"link_pages\" href=\""+last_link+"\" onclick=\"func_jscript\">"+I18n.lang('common', 'last', 'Last')+"</a>"
 

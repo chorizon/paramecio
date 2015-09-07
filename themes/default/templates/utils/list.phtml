@@ -1,7 +1,10 @@
 <table class="table_list">
+    {% if simplelist.yes_search %}
+        
+    {% endif %}
     <tr class="title_list">
         {% for field in simplelist.fields %}
-        <td>{{simplelist.model.forms[field].label}}</td>
+        <td><a href="{{simplelist.url|add_get_parameters(field_order=simplelist.model.forms[field].name)}}">{{simplelist.model.forms[field].label}}</a></td>
         {% endfor %}
     </tr>
     {% for row in list %}

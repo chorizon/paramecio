@@ -26,14 +26,14 @@ def make_url(path, query_args={}):
     
     return config.base_url+path+get_query
 
-def add_get_parameters(url, query_args={}):
+def add_get_parameters(url, **args):
     
     added_url=''
     
     if url.find('?')==-1:
         added_url='?'
     
-    return url+added_url+"&amp;".join( [x+'='+y for x,y in query_args.items()] )
+    return url+added_url+"&amp;".join( [x+'='+y for x,y in args.items()] )
 
 if config.yes_static==True:
     
