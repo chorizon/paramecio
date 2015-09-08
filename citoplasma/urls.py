@@ -33,7 +33,7 @@ def add_get_parameters(url, **args):
     if url.find('?')==-1:
         added_url='?'
     
-    return url+added_url+"&amp;".join( [x+'='+y for x,y in args.items()] )
+    return url+added_url+"&amp;".join( [x+'='+str(y) for x,y in args.items()] )
 
 if config.yes_static==True:
     
