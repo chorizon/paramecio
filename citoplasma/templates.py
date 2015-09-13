@@ -2,6 +2,7 @@
 
 from jinja2 import Template, Environment, FileSystemLoader
 from citoplasma.urls import make_url, make_media_url, make_media_url_module, add_get_parameters
+from citoplasma.i18n import I18n
 from settings import config
 
 # Preparing envs for views of modules, and views of 
@@ -30,6 +31,10 @@ class ptemplate:
         self.add_filter(make_media_url_module)
         
         self.add_filter(add_get_parameters)
+        
+        I18n_lang=I18n.lang
+        
+        self.add_filter(I18n.lang)
     
     def guess_autoescape(self, template_name):
         

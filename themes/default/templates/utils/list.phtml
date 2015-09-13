@@ -1,14 +1,20 @@
 <table class="table_list">
     {% if simplelist.yes_search %}
     <div class="form">
-    <form method="post" action="{{simplelist.url}}">
-        <input type="text" name="search_text" value="">
+    <form method="get" action="{{simplelist.url}}">
+        {{'common'|lang('search', 'Search')}}: <input type="text" name="search_text" value="{{ simplelist.search_text }}"> 
+        <select name="search_field">
+        {% for field in simplelist.search_fields %}
+            <option value="{{simplelist.model.forms[field].name}}" {% if simplelist.search_field==field %}selected{% endif %}>{{simplelist.model.forms[field].label}}</option>
+        {% endfor %}
+        </select>
+        <input type="submit" value="{{'common'|lang('search', 'Search')}}" />
     </form>
     </div>
     {% endif %}
     <tr class="title_list">
         {% for field in simplelist.fields %}
-        <td><a href="{{simplelist.url|add_get_parameters(order_field=simplelist.model.forms[field].name, begin_page=simplelist.begin_page, order=simplelist.change_order[field])}}" class="{% if simplelist.order_field==field %}fa fa-arrow-circle-{{simplelist.order_class[simplelist.s['order']]}}{% endif %}">{{simplelist.model.forms[field].label}}</a></td>
+        <td><a href="{{simplelist.url|add_get_parameters(order_field=simplelist.model.forms[field].name, begin_page=simplelist.begin_page, order=simplelist.change_order[field], search_text=simplelist.search_text, search_field=simplelist.search_field)}}" class="{% if simplelist.order_field==field %}fa fa-arrow-circle-{{simplelist.order_class[simplelist.s['order']]}}{% endif %}">{{simplelist.model.forms[field].label}}</a></td>
         {% endfor %}
     </tr>
     {% for row in list %}

@@ -28,7 +28,7 @@ def make_url(path, query_args={}):
 
 def add_get_parameters(url, **args):
     
-    added_url=''
+    added_url='&'
     
     if url.find('?')==-1:
         added_url='?'
