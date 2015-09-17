@@ -8,11 +8,15 @@ class GunicornServerSSL(ServerAdapter):
 
     cert_pem=''
     privkey_pem=''
+    workers=2
 
     def run(self, handler):
         from gunicorn.app.base import Application
 
-        config = {'bind': "%s:%d" % (self.host, int(self.port)), 'workers': 2, 'keyfile': self.cert_pem, 'certfile': self.privkey_pem, 'ssl_version': ssl.PROTOCOL_TLSv1, 'ciphers': 'TLSv1'}
+        #'ciphers': 'TLSv1'
+        #, 'ssl_version': ssl.PROTOCOL_TLSv1
+
+        config = {'bind': "%s:%d" % (self.host, int(self.port)), 'workers': self.workers, 'keyfile': self.privkey_pem, 'certfile': self.cert_pem, 'ssl_version': ssl.PROTOCOL_TLSv1}
         config.update(self.options)
 
         class GunicornApplication(Application):
