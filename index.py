@@ -39,65 +39,8 @@ else:
 routes={}
 
 module_loaded=None
-"""
-@route("/")
-def index():
-""" 
-"""
-    global module_loaded
-    
-    page_loader=''
-    method_loader=''
-    rule=request['bottle.route'].rule
-    
-    if rule=="/":
-        page_loader=config.base_modules+'.'+config.default_module+'.index'
-        method_loader='home'
-    elif rule in routes.keys():
-        method_loader=os.path.basename(routes[rule].replace('.', '/'))
-        page_loader=routes[rule].replace('.'+method_loader, '')
-        
-    
-    #Import function from module
-    
-    try:
-        
-        if config.reloader==True:
-            
-            if module_loaded==None:
-                
-                module_loaded=import_module(page_loader)
-            else:
-                
-                reload(module_loaded)
-                
-        else:
-    
-            module_loaded=import_module(page_loader)
-    
-    except:
-        print("Exception in user code:")
-        print("-"*60)
-        traceback.print_exc(file=sys.stdout)
-        print("-"*60)
-        abort(404, "Page not found")
-    
-    try:
-    
-        func=getattr(module_loaded, method_loader)
-        
-    except:
-        print("Exception in user code:")
-        print("-"*60)
-        traceback.print_exc(file=sys.stdout)
-        print("-"*60)
-        abort(404, "Page not found")
-    
-    args['session']=load_session()"""
-    
-    #return "Esto es el index"
 
-#Import config urls 
+#Import modules to load
 
 for module in config.modules:
     
@@ -111,35 +54,28 @@ for module in config.modules:
             if controller.find('.py')!=-1 and controller.find('__init__')==-1:
                 controller=controller.replace('.py', '')
                 controllers=import_module(config.base_modules+'.'+module+'.'+controller)
-        #print(arr_views)
         
         add_func_static_module(module)
         
-        #urls=import_module(config.base_modules+'.'+module+'.urls')
-        
-        """
-        for method, turl in urls.urls.items():
-            
-            for url in turl:
-                
-                final_route="/"+module+method+url[1]
-                
-                func_route=getattr(sys.modules[__name__], url[0]);
-                
-                index=func_route(final_route)(index)       
-                
-                #Add routes to dictionary routes
-               
-                routes[final_route]=config.base_modules+'.'+url[2]
-                
-                add_func_static_module(module)
-        """
     except:
         
         print("Exception in user code:")
         print("-"*60)
         traceback.print_exc(file=sys.stdout)
         print("-"*60)
+
+#Prepare ssl
+
+if config.ssl==True:
+    
+    from citoplasma.gunicornssl import GunicornServerSSL
+    
+    GunicornServerSSL.cert_pem=config.cert_pem
+    GunicornServerSSL.privkey_pem=config.privkey_pem
+    
+    config.server_used=GunicornServerSSL
+
+#Prepare app
 
 app = default_app()
 

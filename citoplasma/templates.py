@@ -3,6 +3,7 @@
 from jinja2 import Template, Environment, FileSystemLoader
 from citoplasma.urls import make_url, make_media_url, make_media_url_module, add_get_parameters
 from citoplasma.i18n import I18n
+from citoplasma.orderedset import OrderedSet
 from settings import config
 
 # Preparing envs for views of modules, and views of 
@@ -16,9 +17,9 @@ template = env.get_template('mytemplate.html')
 
 class ptemplate:
     
-    autoescape_ext=('html', 'htm', 'xml')
-    
     def __init__(self, module):
+        
+        self.autoescape_ext=('html', 'htm', 'xml')
         
         self.env=self.env_theme(module)
         
@@ -35,6 +36,12 @@ class ptemplate:
         I18n_lang=I18n.lang
         
         self.add_filter(I18n.lang)
+        
+        self.add_filter(add_css_home)
+        
+        self.add_filter(add_js_home)
+        
+        self.add_filter(add_header_home)
     
     def guess_autoescape(self, template_name):
         
@@ -56,9 +63,74 @@ class ptemplate:
         
         template = self.env.get_template(template_file)
         
+        arguments['HeaderHTML']=HeaderHTML
+        
         return template.render(arguments)
 
     def add_filter(self, filter_name):
 
         self.env.filters[filter_name.__name__]=filter_name
 
+
+class HeaderHTML:
+    
+    css=[]
+    js=[]
+    header=[]
+    cache_header={}
+
+    def header_home():
+        
+        final_header="\n".join(HeaderHTML.header)
+        
+        HeaderHTML.header=[]
+        
+        return final_header
+
+    def js_home():
+
+        final_js=[]
+        
+        for js in HeaderHTML.js:
+            final_js.append('<script language="Javascript" src="'+make_media_url('js/'+js)+'"></script>')
+        
+        return "\n".join(final_js)
+
+    def css_home():
+        
+        final_css=[]
+        
+        for css in HeaderHTML.css:
+            final_css.append('<link href="'+make_media_url('css/'+css)+'" rel="stylesheet" type="text/css"/>')
+
+        return "\n".join(final_css)
+
+
+def add_header_home(variable, only_one_time=False):
+        
+        
+        if only_one_time==True:
+            HeaderHTML.cache_header.get(variable, 0)
+            
+            if cache_header[variable]==1:
+                return ''
+        #HeaderHTML.cache_header[variable]=1
+        
+        HeaderHTML.header.append(variable)
+        
+        return ''
+
+def add_css_home(css):
+    
+    if not css in HeaderHTML.css:
+        HeaderHTML.css.append(css)
+    
+    return ""
+    
+def add_js_home(js):
+    
+    if not js in HeaderHTML.js:
+        HeaderHTML.js.append(js)
+    
+    return ""
+    

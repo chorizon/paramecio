@@ -27,7 +27,7 @@ a:hover
 	color:#000;
 	font-size:22px;
 	font-family:"Georgia", sans, serif;
-	background-image:url('../images/admin/background.png');
+	background-image:url('../../images/admin/background.png');
 	background-position:top;
 	background-repeat:repeat-x;
 	background-color:#959595;
@@ -66,7 +66,7 @@ h1
 	font-weight:normal;
 	font-style:italic;
 	color:#04004e;
-	background-image:url('../images/admin/button_head.png');
+	background-image:url('../../images/admin/button_head.png');
 	background-repeat: no-repeat;
 	/*padding-left:65px;*/
 	/*height:60px;
@@ -148,7 +148,7 @@ h1
 	/*font-family:arial, sans;*/
 	font-weight:bold;
 	padding:5px;
-	background-image:url('../images/admin/background_title.png');
+	background-image:url('../../images/admin/background_title.png');
 	background-position:top;
 	background-repeat: repeat-x;
 	background-color: #fcf7fd;
@@ -199,7 +199,7 @@ h1
 	text-decoration:none;
 	color:#000000;
 	padding:5px;
-	background-image:url('../images/admin/background_title.png');
+	background-image:url('../../images/admin/background_title.png');
 	background-position:top;
 	background-repeat: repeat-x;
 	background-color: #fcf7fd;
@@ -307,7 +307,7 @@ margin-right:auto;
 	border:solid #cccccc;
 	border-width:1px;
 	padding:8px;
-	background-image:url('../images/admin/background_title.png');
+	background-image:url('../../images/admin/background_title.png');
 	background-position:top;
 	background-repeat: repeat-x;
 	font-size:14px;

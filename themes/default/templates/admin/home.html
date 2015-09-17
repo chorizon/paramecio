@@ -4,8 +4,14 @@
         <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <title>{{title}}</title>
-        <link href="{{'admin/css/admin.css'|make_media_url}}" rel="stylesheet" type="text/css"/>
-        <link href="{{'css/font-awesome.min.css'|make_media_url}}" rel="stylesheet" type="text/css"/>
+        <!--<link href="{{'css/admin/admin.css'|make_media_url}}" rel="stylesheet" type="text/css"/>
+        <link href="{{'css/font-awesome.min.css'|make_media_url}}" rel="stylesheet" type="text/css"/>-->
+        {{ 'admin/admin.css'|add_css_home }}
+        {{ 'font-awesome.min.css'|add_css_home }}
+        {{ HeaderHTML.css_home()|safe }}
+        {{ 'jquery.min.js'|add_js_home }}
+        {{ HeaderHTML.js_home()|safe }}
+        {{ HeaderHTML.header_home()|safe }}
         </head>
         <body>
         <div id="languages_general">
