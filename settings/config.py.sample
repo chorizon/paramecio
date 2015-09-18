@@ -18,6 +18,8 @@ admin_folder='admin'
 
 host='localhost'
 
+allowed_ips=[]
+
 #The theme by default
 
 theme='default'
