@@ -4,6 +4,7 @@ __pycache__
 modules/*
 !modules/welcome
 settings/*
+!settings/__init__.py
 !settings/config.py.sample
 themes/*
 !themes/default/
