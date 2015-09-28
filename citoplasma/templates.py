@@ -3,7 +3,6 @@
 from jinja2 import Template, Environment, FileSystemLoader
 from citoplasma.urls import make_url, make_media_url, make_media_url_module, add_get_parameters
 from citoplasma.i18n import I18n
-from citoplasma.orderedset import OrderedSet
 from settings import config
 
 # Preparing envs for views of modules, and views of 

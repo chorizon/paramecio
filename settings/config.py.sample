@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
-from cromosoma.webmodel import WebModel
+# You need install cromosoma for use this.
+
+#from cromosoma.webmodel import WebModel
 
 #server_used="wsgiref"
 
@@ -12,7 +14,11 @@ debug=True
 
 reloader=True
 
+admin_folder='admin'
+
 host='localhost'
+
+allowed_ips=[]
 
 #The theme by default
 
@@ -32,19 +38,25 @@ default_module="welcome"
 
 #Modules with permissions to access for users
 
-modules=['welcome', 'admin']
+modules=['welcome']
 
 #Activate sessions?
 
-session_activated=True
+session_enabled=True
 
 #Variables for beaker sessions
+
+cookie_name = 'paramecio.session'
 
 session_opts = {
     'session.type': 'file',
     'session.cookie_expires': False,
     'session.data_dir': './sessions',
     'session.auto': True
+}
+
+cache_session_opts = {
+    
 }
 
 #The base url 
@@ -55,12 +67,22 @@ base_url='/'
 
 media_url='/'
 
+#SSL support built in server. You need cherrypy installed for use this.
+
+ssl=False
+
+# Cert file for ssl
+
+cert_pem=''
+
+# Key file for ssl
+
+privkey_pem=''
+
 #WARNING: only use this feature in development, not in production.
 
 yes_static=True
 
-#Database config, if you want anything...
+#Database mysql config, if you want anything...
 
-WebModel.connections={'default': {'name': 'default', 'host': 'localhost', 'user': 'root', 'password': '', 'db': 'cromosoma', 'charset': 'utf8mb4', 'set_connection': False} }
-
-
+#WebModel.connections={'default': {'name': 'default', 'host': 'localhost', 'user': 'root', 'password': '', 'db': 'example', 'charset': 'utf8mb4', 'set_connection': False} }
