@@ -114,8 +114,8 @@ class SimpleList:
             self.search_field=''
         
         if self.search_field!='' and self.search_text!='':
-            self.model.conditions[0]+=' AND '+self.search_field+' LIKE "%%s%"'
-            self.model.conditions[1]=[self.search_text]
+            self.model.conditions[0]+=' AND '+self.search_field+' LIKE %s'
+            self.model.conditions[1]=['%'+self.search_text+'%']
         
         pass
     
