@@ -19,7 +19,7 @@ def page(id):
 @route('/welcome/test/<id:int>')
 def test(id):
     
-    return make_url('welcome/test/5', {'pepe': 'pepo', 'pepa':'pipa'})
+    return make_url('welcome/test/5', {'ohmygod': 'This is gooood', 'shutup':'Shut up!!'})
 
 if config.default_module=="welcome":
 

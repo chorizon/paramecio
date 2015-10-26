@@ -2,10 +2,10 @@
 
 from settings import config
 
-def load_lang(**args):
+def load_lang(*args):
     
     for module in args:
-    
+        
         if module in config.modules:
     
             lang_path=config.base_modules+'.'+module+'.i18n'
@@ -13,12 +13,7 @@ def load_lang(**args):
         else:
             lang_path='i18n'
 
-        #gettext.bindtextdomain(module, lang_path)
-        
-        
-        
-        #gettext.textdomain(module)
-        # _= gettext.gettext
+       # here load the language 
         
 
 class I18n:
