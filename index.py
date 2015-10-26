@@ -77,7 +77,7 @@ if config.ssl==True:
 
 #Prepare app
 
-app = default_app()
+app = application  = default_app()
 
 if config.session_enabled==True:
     #Create dir for sessions
