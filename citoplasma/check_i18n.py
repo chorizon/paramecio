@@ -7,6 +7,8 @@ pattern=re.compile('^\w+\.py$')
 
 ignored=re.compile('^[__|\.].*$')
 
+lang_p=re.compile()
+
 def start():
     
     scandir('.')
@@ -25,7 +27,13 @@ def scandir(path):
             if ignored.match(name)==None:
                 scandir(new_path)
         elif pattern.match(name)!=None and ignored.match(name)==None:
-            pass
+            
+            f=open(new_path)
+            
+            
+            
+            f.close()
+            
             #print('archivo->'+path+'/'+name)
             # Open file
             # obtain modules, keys, and default text

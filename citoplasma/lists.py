@@ -3,7 +3,9 @@
 from citoplasma.pages import Pages
 from citoplasma.urls import add_get_parameters
 from citoplasma.sessions import get_session
+from citoplasma.i18n import I18n
 from bottle import request
+import sys
 
 class SimpleList:
     
@@ -18,6 +20,8 @@ class SimpleList:
             self.model.create_forms()
         
         self.fields=model.fields.keys()
+        
+        self.fields_showed=self.fields
         
         self.url=url
         
@@ -45,11 +49,22 @@ class SimpleList:
             self.begin_page=0
         
         self.search_fields=self.fields
+        
+        #self.yes_options=True
+        
+        self.arr_extra_fields=[I18n.lang('common', 'options', 'Options')]
+        
+        self.arr_extra_options=[SimpleList.standard_options]
+        
+        self.jln='<br />'
     
     def set_fields_no_showed(self, fields_no_showed):
         
-        self.fields=[field for field in self.fields if not field in fields_no_showed]
+        self.fields=[field for field in self.fields_showed if not field in fields_no_showed]
                
+    def set_fields_showed(self, fields_showed):
+        
+        self.fields=[field for field in self.fields_showed if field in fields_showed]
     
     def restore_fields(self):
         self.fields=self.model.fields.keys()
@@ -119,6 +134,17 @@ class SimpleList:
         
         pass
     
+    def set_options(self, options_func, arr_row):
+        #SimpleList.standard_options(arr_row)
+        return self.jln.join(options_func(self.url, arr_row)) 
+    
+    @staticmethod
+    def standard_options(url, arr_row):
+        options=[]
+        options.append('<a href="'+add_get_parameters(url, op_action=2)+'">'+I18n.lang('common', 'edit', 'Edit')+'</a>')
+        options.append('<a href="'+add_get_parameters(url, op_action=3)+'">'+I18n.lang('common', 'delete', 'Delete')+'</a>')
+        return options
+    
     def show(self):
         
         self.obtain_order()
@@ -145,4 +171,9 @@ class SimpleList:
         
         self.begin_page=str(self.begin_page)
         
+        #if self.yes_options==True:
+            #self.options=self.jln.join(self.arr_options)
+        
+        
         return self.t.load_template('utils/list.phtml', simplelist=self, list=list_items, pages=pages)
+    
