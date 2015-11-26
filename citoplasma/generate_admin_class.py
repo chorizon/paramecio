@@ -1,11 +1,13 @@
-from citoplasma import list
+from citoplasma.lists import SimpleList
+from citoplasma.sessions import get_session
+from citoplasma.urls import add_get_parameters
 
 class GenerateAdminClass:
     
-    def __init__(model):
+    def __init__(model, url, t):
         self.model_name=''
 
-        self.list
+        self.list=SimpleList(model, url, t)
         
         #For the future
         
@@ -13,7 +15,7 @@ class GenerateAdminClass:
         
         self.arr_fields_edit={}
         
-        self.url=''
+        self.url=url
         
         self.safe=0;
         
@@ -28,5 +30,5 @@ class GenerateAdminClass:
         self.no_delete=0
 
 
-    def show(op=0):
+    def show():
         pass

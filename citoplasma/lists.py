@@ -58,6 +58,7 @@ class SimpleList:
         
         self.jln='<br />'
     
+    """
     def set_fields_no_showed(self, fields_no_showed):
         
         self.fields=[field for field in self.fields_showed if not field in fields_no_showed]
@@ -65,6 +66,7 @@ class SimpleList:
     def set_fields_showed(self, fields_showed):
         
         self.fields=[field for field in self.fields_showed if field in fields_showed]
+    """
     
     def restore_fields(self):
         self.fields=self.model.fields.keys()
