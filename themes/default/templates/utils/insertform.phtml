@@ -1,4 +1,4 @@
-<form method="post" action="{{ admin.url|add_get_parameters(op_admin=2, id=admin.id) }}">
+<form method="post" action="{{ admin.url|add_get_parameters(op_admin=2, id=id) }}">
     <h2>{{'common'|lang('add_new_item', 'Add new item')}}</h2>
     {{ form }}
     <p><input type="submit" value="{{ 'common'|lang('send', 'Send') }}"></p>

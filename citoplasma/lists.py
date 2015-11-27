@@ -57,17 +57,7 @@ class SimpleList:
         self.arr_extra_options=[SimpleList.standard_options]
         
         self.jln='<br />'
-    
-    """
-    def set_fields_no_showed(self, fields_no_showed):
-        
-        self.fields=[field for field in self.fields_showed if not field in fields_no_showed]
-               
-    def set_fields_showed(self, fields_showed):
-        
-        self.fields=[field for field in self.fields_showed if field in fields_showed]
-    """
-    
+
     def restore_fields(self):
         self.fields=self.model.fields.keys()
     
@@ -140,13 +130,13 @@ class SimpleList:
     
     def set_options(self, options_func, arr_row):
         #SimpleList.standard_options(arr_row)
-        return self.jln.join(options_func(self.url, arr_row)) 
+        return self.jln.join(options_func(self.url, arr_row[self.model.name_field_id], arr_row)) 
     
     @staticmethod
-    def standard_options(url, arr_row):
+    def standard_options(url, id, arr_row):
         options=[]
-        options.append('<a href="'+add_get_parameters(url, op_action=2)+'">'+I18n.lang('common', 'edit', 'Edit')+'</a>')
-        options.append('<a href="'+add_get_parameters(url, op_action=3)+'">'+I18n.lang('common', 'delete', 'Delete')+'</a>')
+        options.append('<a href="'+add_get_parameters(url, op_admin=1, id=id)+'">'+I18n.lang('common', 'edit', 'Edit')+'</a>')
+        options.append('<a href="'+add_get_parameters(url, op_admin=3, id=id)+'">'+I18n.lang('common', 'delete', 'Delete')+'</a>')
         return options
     
     def show(self):
@@ -174,10 +164,6 @@ class SimpleList:
         pages=Pages.show( begin_page, total_elements, num_elements, link ,initial_num_pages=5, variable='begin_page', label='', func_jscript='')
         
         self.begin_page=str(self.begin_page)
-        
-        #if self.yes_options==True:
-            #self.options=self.jln.join(self.arr_options)
-        
         
         return self.t.load_template('utils/list.phtml', simplelist=self, list=list_items, pages=pages)
     
