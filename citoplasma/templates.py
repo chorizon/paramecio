@@ -3,6 +3,7 @@
 from jinja2 import Template, Environment, FileSystemLoader
 from citoplasma.urls import make_url, make_media_url, make_media_url_module, add_get_parameters
 from citoplasma.i18n import I18n
+from citoplasma.sessions import get_session
 from settings import config
 
 # Preparing envs for views of modules, and views of 
@@ -63,6 +64,10 @@ class ptemplate:
         template = self.env.get_template(template_file)
         
         arguments['HeaderHTML']=HeaderHTML
+        
+        arguments['show_flash_message']=show_flash_message
+        
+        #Will be nice add hooks here
         
         return template.render(arguments)
 
@@ -132,4 +137,27 @@ def add_js_home(js):
         HeaderHTML.js.append(js)
     
     return ""
+
+def set_flash_message(message):
+    
+    s=get_session()
+    
+    s.get('flash', "")
+    
+    s['flash']=message
+    
+def show_flash_message():
+    
+    message=""
+    
+    s=get_session()
+    
+    s.get('flash', "")
+    
+    if s['flash']!="":
+        message='<div class="flash">'+s['flash']+'</div>'
+    
+    s['flash']=''
+    
+    return message
     

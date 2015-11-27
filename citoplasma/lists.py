@@ -99,7 +99,7 @@ class SimpleList:
         field_k=self.s['order_field']
         
         if 'order_field' in request.query.keys():
-            field_k=request.query['order_field']
+            field_k=request.query.order_field
         
         if field_k in self.model.fields.keys():
             
@@ -119,7 +119,9 @@ class SimpleList:
         
     def search(self):
         
-        self.search_text=request.query.get('search_text', '')
+        request.query.get('search_text', '')
+        
+        self.search_text=request.query.search_text
         
         self.search_text=self.search_text.replace('"', '&quot;')
         
