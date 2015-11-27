@@ -152,7 +152,7 @@ def show_flash_message():
     
     s=get_session()
     
-    s.get('flash', "")
+    s['flash']=s.get('flash', "")
     
     if s['flash']!="":
         message='<div class="flash">'+s['flash']+'</div>'

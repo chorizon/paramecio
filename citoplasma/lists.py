@@ -43,7 +43,14 @@ class SimpleList:
         
         self.search_text=''
         
-        self.begin_page=int(request.query.get('begin_page', '0'))
+        request.query.get('begin_page', '0')
+        
+        try: 
+        
+            self.begin_page=int(request.query.begin_page)
+            
+        except ValueError:
+            self.begin_page=0
         
         if self.begin_page<0:
             self.begin_page=0
