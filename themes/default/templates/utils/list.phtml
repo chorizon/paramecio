@@ -7,7 +7,7 @@
 {% if simplelist.yes_search %}
 <div class="form">
 <form method="get" action="{{simplelist.url}}">
-    {{'common'|lang('search', 'Search')}}: <input type="text" name="search_text" value="{{ simplelist.search_text }}"> 
+    {{'common'|lang('search', 'Search')}}: <input type="text" name="search_text" value="{{ simplelist.search_text|safe }}"> 
     <select name="search_field">
     {% for field in simplelist.search_fields %}
         <option value="{{simplelist.model.forms[field].name}}" {% if simplelist.search_field==field %}selected{% endif %}>{{simplelist.model.forms[field].label}}</option>
@@ -33,11 +33,11 @@
         {% endfor %}
         
         {% for extra_field_func in simplelist.arr_extra_options %}
-            <td>{{ simplelist.set_options(extra_field_func, row) }}</td>
+            <td>{{ simplelist.set_options(extra_field_func, row)|safe }}</td>
         {% endfor %}
     </tr>
     {% endfor %}
 </table>
 <p>
-{{pages}}
+{{pages|safe}}
 </p>

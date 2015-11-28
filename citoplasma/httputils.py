@@ -14,12 +14,14 @@ class GetPostFiles:
     @staticmethod
     def obtain_get():
         
-        get={}
+        GetPostFiles.getget={}
         
         GetPostFiles.get=request.query.decode()
     
     @staticmethod
     def obtain_post():
+        
+        GetPostFiles.post={}
         
         GetPostFiles.post=request.forms.decode()
     

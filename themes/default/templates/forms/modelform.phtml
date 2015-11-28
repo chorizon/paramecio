@@ -1,9 +1,9 @@
 <div class="form">
     {% for form in forms.values() %}
         {% if form.type!='hidden' %}
-            <p><label>{{form.label}}{% if form.required %}*{% endif %}</label>{{form.form()}} <span class="error">{{form.txt_error}}</span></p>
+            <p><label>{{form.label}}{% if form.required %}*{% endif %}</label>{{form.form()|safe}} <span class="error">{{form.txt_error}}</span></p>
         {% else %}
-            {{form.form()}}
+            {{form.form()|safe}}
         {% endif %}
     {% endfor %}
 </div>

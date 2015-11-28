@@ -19,7 +19,7 @@ class ptemplate:
     
     def __init__(self, module):
         
-        self.autoescape_ext=('html', 'htm', 'xml')
+        self.autoescape_ext=('html', 'htm', 'xml', 'phtml')
         
         self.env=self.env_theme(module)
         
