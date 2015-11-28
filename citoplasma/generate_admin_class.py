@@ -4,7 +4,7 @@ from citoplasma.urls import add_get_parameters
 from citoplasma.templates import set_flash_message
 from cromosoma.formsutils import show_form
 from citoplasma.i18n import I18n
-from cromosoma.formsutils import obtain_post
+from citoplasma.httputils import GetPostFiles
 
 class GenerateAdminClass:
     
@@ -38,38 +38,41 @@ class GenerateAdminClass:
 
     def show(self):
         
-        request.query.get('op_admin', '0')
+        GetPostFiles.obtain_get()
         
-        if request.query.op_admin=='1':
+        GetPostFiles.get['op_admin']=GetPostFiles.get.get('op_admin', '0')
+        
+        GetPostFiles.get['id']=GetPostFiles.get.get('id', '0')
+        
+        if GetPostFiles.get['op_admin']=='1':
             
-            post={}
+            post=None
             
             if len(self.model.forms)==0:
                 self.model.create_forms(self.arr_fields_edit)
             
-            request.query.get('id', '0')
+            if GetPostFiles.get['id']!='0':
+                post=self.model.select_a_row(GetPostFiles.get['id'])
             
-            if request.query.id!='0':
-                post=self.model.select_a_row(request.query.id)
+            if post==None:
+                post={}
             
-            if post!=None:
-            
-                form=show_form(post, self.model.forms, self.t, False)
-                    
-                return self.t.load_template('utils/insertform.phtml', admin=self, form=form, id=request.query.id)
+            form=show_form(post, self.model.forms, self.t, False)
+                
+            return self.t.load_template('utils/insertform.phtml', admin=self, form=form, id=GetPostFiles.get['id'])
         
-        elif request.query.op_admin=='2':
+        elif GetPostFiles.get['op_admin']=='2':
             
-            post=obtain_post()
+            GetPostFiles.obtain_post()
+            
+            post=GetPostFiles.post
             
             insert_row=self.model.insert
             
-            request.query.get('id', '0')
-            
-            if request.query.id!='0':
+            if GetPostFiles.get['id']!='0':
                 insert_row=self.model.update
                 
-                self.model.conditions=['WHERE `'+self.model.name+'`.`'+self.model.name_field_id+'`=%s', [request.query.id]]
+                self.model.conditions=['WHERE `'+self.model.name+'`.`'+self.model.name_field_id+'`=%s', [GetPostFiles.get['id']]]
             
             if insert_row(post):
                 set_flash_message(I18n.lang('common', 'task_successful', 'Task successful'))
@@ -81,10 +84,10 @@ class GenerateAdminClass:
             
             pass
             
-        elif request.query.op_admin=='3':
+        elif GetPostFiles.get['op_admin']=='3':
     
-            if request.query.id!='0':
-                self.model.conditions=['WHERE `'+self.model.name+'`.`'+self.model.name_field_id+'`=%s', [request.query.id]]
+            if GetPostFiles.get['id']!='0':
+                self.model.conditions=['WHERE `'+self.model.name+'`.`'+self.model.name_field_id+'`=%s', [GetPostFiles.get['id']]]
                 self.model.delete()
                 set_flash_message(I18n.lang('common', 'task_successful', 'Task successful'))
                 redirect(self.url)

@@ -142,7 +142,7 @@ def set_flash_message(message):
     
     s=get_session()
     
-    s.get('flash', "")
+    s['flash']=s.get('flash', "")
     
     s['flash']=message
     
