@@ -59,7 +59,7 @@ class GenerateAdminClass:
             
             form=show_form(post, self.model.forms, self.t, False)
                 
-            return self.t.load_template('utils/insertform.phtml', admin=self, form=form, id=GetPostFiles.get['id'])
+            return self.t.load_template('utils/insertform.phtml', admin=self, form=form, model=self.model, id=GetPostFiles.get['id'])
         
         elif GetPostFiles.get['op_admin']=='2':
             
@@ -68,6 +68,14 @@ class GenerateAdminClass:
             post=GetPostFiles.post
             
             insert_row=self.model.insert
+            
+            try:
+                
+                GetPostFiles.get['id']=str(int(GetPostFiles.get['id']))
+            
+            except:
+                
+                GetPostFiles.get['id']='0'
             
             if GetPostFiles.get['id']!='0':
                 insert_row=self.model.update
@@ -78,8 +86,9 @@ class GenerateAdminClass:
                 set_flash_message(I18n.lang('common', 'task_successful', 'Task successful'))
                 redirect(self.url)
             else:
+
                 form=show_form(post, self.model.forms, self.t, True)
-                return self.t.load_template('utils/insertform.phtml', admin=self, form=form)
+                return self.t.load_template('utils/insertform.phtml', admin=self, form=form, model=self.model)
 
             
             pass

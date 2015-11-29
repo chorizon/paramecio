@@ -22,7 +22,7 @@ def make_url(path, query_args={}):
     
     if len(query_args)>0:
         
-        get_query='?'+"&amp;".join( [x+'='+y for x,y in query_args.items()] )
+        get_query='?'+"&".join( [x+'='+y for x,y in query_args.items()] )
     
     return config.base_url+path+get_query
 
@@ -33,7 +33,7 @@ def add_get_parameters(url, **args):
     if url.find('?')==-1:
         added_url='?'
     
-    return url+added_url+"&amp;".join( [x+'='+str(y) for x,y in args.items()] )
+    return url+added_url+"&".join( [x+'='+str(y) for x,y in args.items()] )
 
 if config.yes_static==True:
     
