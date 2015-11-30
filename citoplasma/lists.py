@@ -43,6 +43,8 @@ class SimpleList:
         
         self.search_text=''
         
+        self.initial_num_pages=20
+        
         request.query.get('begin_page', '0')
         
         try: 
@@ -168,7 +170,7 @@ class SimpleList:
         
         list_items=self.model.select(self.fields)
         
-        pages=Pages.show( begin_page, total_elements, num_elements, link ,initial_num_pages=5, variable='begin_page', label='', func_jscript='')
+        pages=Pages.show( begin_page, total_elements, num_elements, link ,initial_num_pages=self.initial_num_pages, variable='begin_page', label='', func_jscript='')
         
         self.begin_page=str(self.begin_page)
         
