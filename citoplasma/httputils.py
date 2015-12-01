@@ -14,7 +14,7 @@ class GetPostFiles:
     @staticmethod
     def obtain_get():
         
-        GetPostFiles.getget={}
+        GetPostFiles.get={}
         
         GetPostFiles.get=request.query.decode()
     

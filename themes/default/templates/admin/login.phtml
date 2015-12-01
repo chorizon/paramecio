@@ -1,62 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <title>{{ 'common'|lang('login', 'Login') }}</title>
+    <title>{% block title %}{{'admin'|lang('login', 'Paramecio Login')}}{% endblock %}</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     {{ 'jquery.min.js'|add_js_home }}
     {{ 'admin/login.css'|add_css_home }}
+    {{ 'font-awesome.min.css'|add_css_home }}
     {{ HeaderHTML.css_home()|safe }}
     {{ HeaderHTML.js_home()|safe }}
-    <script language="javascript">
-    $( ".input" ).focusin(function() {
-    
-        $( this ).find( "span" ).animate({"opacity":"0"}, 200);
-    
-    });
-
-    $( ".input" ).focusout(function() {
-    
-        $( this ).find( "span" ).animate({"opacity":"1"}, 300);
-        
-    });
-
-    $(".login").submit(function(){
-    
-        $(this).find(".submit i").removeAttr('class').addClass("fa fa-check").css({"color":"#fff"});
-        $(".submit").css({"background":"#2ecc71", "border-color":"#2ecc71"});
-        $(".feedback").show().animate({"opacity":"1", "bottom":"-80px"}, 400);
-        $("input").css({"border-color":"#2ecc71"});
-        return false;
-        
-    });
-    </script>
+    {% block ajax %}
+    {% endblock %}
     </head>
     <body>
-        <form class="login">
-        <fieldset>
-            
-            <legend class="legend">Login</legend>
-            
-            <div class="input">
-                <input type="email" placeholder="Email" required />
-            <span><i class="fa fa-envelope-o"></i></span>
+        {% block content %}
+        <form id="login">
+            <div id="title">
+                {{'admin'|lang('login', 'Paramecio Login')}}
             </div>
-            
-            <div class="input">
-                <input type="password" placeholder="Password" required />
-            <span><i class="fa fa-lock"></i></span>
-            </div>
-            
-            <button type="submit" class="submit"><i class="fa fa-long-arrow-right"></i></button>
-            
-        </fieldset>
-        
-        <div class="feedback">
-            login successful <br />
-            redirecting...
-        </div>
-        
+            {{ forms|safe }}
+            <input type="submit" value="{{'common'|lang('login', 'Login')}}" class="submit" />
         </form>
+        {% endblock %}
     </body>
 </html>

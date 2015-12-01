@@ -1,0 +1,55 @@
+{% extends "admin/login.phtml" %}
+{% block ajax %}
+    <script language="Javascript">
+        $(document).ready( function () {
+            
+            $("#register_submit").click( function () {
+                alert($('#password_form').val());
+                $.ajax({
+                url: "{{ 'admin/register'|make_url() }}",
+                method: "POST",
+                dataType: "json",
+                data: {'username': $('#username_form').val(), 'email': $('#email_form').val(), 'password': $('#password_form').val(), 'repeat_password': $('#repeat_password_form').val()}
+                }).done(function(data) {
+                //$( this ).addClass( "done" );
+                //Redirect if register
+                
+                    if(data.error==0)
+                    {
+                    
+                        $('#result_register').html('Done!. Redirecting...');
+                    
+                    }
+                    else
+                    {
+                        alert(JSON.stringify(data));
+                        //$('#result_register').html('Error');
+                        $('#username_error').html(data.username);
+                        $('#email_error').html(data.email);
+                        $('#password_error').html(data.password);
+                        //$('#repeat_password_form').html(data.password_repeat);
+
+                    
+                    }
+                
+                });
+                
+                return false;
+                
+            });
+            
+        
+        });
+    </script>
+{% endblock %}
+{% block title %}{{'admin'|lang('sign_up', 'Paramecio Sign up')}}{% endblock %}
+{% block content %}
+<form id="login">
+    <div id="title">
+                {{'admin'|lang('sign_up', 'Paramecio Sign up')}}
+    </div>
+    {{ forms|safe }}
+    <div id="result_register"></div>
+    <input type="submit" value="{{'common'|lang('sign_up', 'Sign up')}}" class="submit" id="register_submit"/>
+</form>
+{% endblock %}
