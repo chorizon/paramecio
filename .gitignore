@@ -3,6 +3,7 @@
 __pycache__
 modules/*
 !modules/welcome
+!modules/admin
 settings/*
 !settings/__init__.py
 !settings/config.py.sample
