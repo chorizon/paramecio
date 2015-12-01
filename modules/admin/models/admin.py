@@ -15,7 +15,7 @@ class UserAdmin(WebModel):
 
         self.fields['username'].required=True
 
-        self.register(corefields.CharField('password'))
+        self.register(PasswordField('password'))
 
         self.fields['password'].required=True
 

@@ -143,11 +143,12 @@ def register():
     
     GetPostFiles.post.append('privileges', 2)
     
-    if user_admin.insert(GetPostFiles.post):
+    if user_admin.insert(GetPostFiles.post, False):
     
         error= {'error': 0}
         
-    else:
+    else:       
+        
         error= {'error': 1}
         
         for field in user_admin.fields.values():
