@@ -121,7 +121,7 @@ def home(module=''):
                     if config.reloader:
                         reload(new_module)
                     
-                    return t.load_template('admin/content.html', title=I18n.lang('admin', 'admin_module', "Admin ")+module, content_index=new_module.admin(), menu=menu)
+                    return t.load_template('admin/content.html', title=I18n.lang('admin', 'admin_module', "Admin ")+module, content_index=new_module.admin(t), menu=menu)
                     
                 else:
                     return t.load_template('admin/index.html', title=I18n.lang('admin', 'welcome_to_paramecio', "Welcome to Paramecio Admin!!!"), menu=menu)
