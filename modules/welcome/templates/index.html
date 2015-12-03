@@ -66,13 +66,13 @@
 <body>
 
 <div id="container">
-    <h1>{{ title }}</h1>
+    <h1>${title}</h1>
 
     <div class="body">
-        {% block content %}
-        <p><strong>This is an id from an url</strong>: {{id}}</p>
-        <p><strong>This is an query from an url with name value</strong>: {{value}}</p>
-        {% endblock %}
+        <%block name="content">
+        <p><strong>This is an id from an url</strong>: ${id}</p>
+        <p><strong>This is an query from an url with name value</strong>: ${value}</p>
+        </%block>
     </div>
 
     <div class="footer">Paramecio, a system created for create webapps</div>

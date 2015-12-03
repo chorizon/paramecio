@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-from jinja2 import Template, Environment, FileSystemLoader
+from mako.template import Template
+from mako.lookup import TemplateLookup
 from citoplasma.urls import make_url, make_media_url, make_media_url_module, add_get_parameters
 from citoplasma.i18n import I18n
 from citoplasma.sessions import get_session
@@ -23,8 +24,9 @@ class ptemplate:
         
         self.env=self.env_theme(module)
         
-        #Adding basic filters for urls
+        self.filters={}
         
+        #Adding basic filters for urls
         self.add_filter(make_url)
         
         self.add_filter(make_media_url)
@@ -43,9 +45,16 @@ class ptemplate:
         
         self.add_filter(add_header_home)
         
-        self.auto_reload=True
+        #self.auto_reload=True
         
         # Clean HeaderHTML
+        
+        HeaderHTML.css=[]
+        HeaderHTML.js=[]
+        HeaderHTML.header=[]
+        HeaderHTML.cache_header=[]
+    
+    def clean_header_cache(self):
         
         HeaderHTML.css=[]
         HeaderHTML.js=[]
@@ -66,7 +75,9 @@ class ptemplate:
 
         module_templates=config.base_modules+'/'+module+'/templates'
 
-        return Environment(autoescape=self.guess_autoescape, auto_reload=True, loader=FileSystemLoader([theme_templates, module_templates]))
+        return TemplateLookup(directories=[theme_templates, module_templates], default_filters=['h'], input_encoding='utf-8', encoding_errors='replace')
+
+        #return Environment(autoescape=self.guess_autoescape, auto_reload=True, loader=FileSystemLoader([theme_templates, module_templates]))
 
     def load_template(self, template_file, **arguments):
         
@@ -76,13 +87,16 @@ class ptemplate:
         
         arguments['show_flash_message']=show_flash_message
         
+        for filter_name, filter_ in self.filters.items():
+            arguments[filter_name]=filter_
+        
         #Will be nice add hooks here
         
-        return template.render(arguments)
+        return template.render(**arguments)
 
     def add_filter(self, filter_name):
 
-        self.env.filters[filter_name.__name__]=filter_name
+        self.filters[filter_name.__name__]=filter_name
 
 
 class HeaderHTML:

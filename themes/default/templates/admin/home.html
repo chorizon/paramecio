@@ -1,38 +1,40 @@
 <!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>${title}</title>
+<!--<link href="{{'css/admin/admin.css'|make_media_url}}" rel="stylesheet" type="text/css"/>
+<link href="{{'css/font-awesome.min.css'|make_media_url}}" rel="stylesheet" type="text/css"/>-->
+${add_css_home('admin/admin.css')}
+${add_css_home('font-awesome.min.css')}
+${HeaderHTML.css_home()|n}
+${add_js_home('jquery.min.js')}
+${HeaderHTML.js_home()|n}
+${HeaderHTML.header_home()|n}
+</head>
+<body>
+<div id="languages_general">
+</div>
+<div id="logout">
+<a href="${make_url('admin/logout')}">Logout</a>
+</div>
 
-        <html>
-        <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <title>{{title}}</title>
-        <!--<link href="{{'css/admin/admin.css'|make_media_url}}" rel="stylesheet" type="text/css"/>
-        <link href="{{'css/font-awesome.min.css'|make_media_url}}" rel="stylesheet" type="text/css"/>-->
-        {{ 'admin/admin.css'|add_css_home }}
-        {{ 'font-awesome.min.css'|add_css_home }}
-        {{ HeaderHTML.css_home()|safe }}
-        {{ 'jquery.min.js'|add_js_home }}
-        {{ HeaderHTML.js_home()|safe }}
-        {{ HeaderHTML.header_home()|safe }}
-        </head>
-        <body>
-        <div id="languages_general">
+<div id="center_body">
+    <div id="header"><span id="title_phango">Paramecio</span> <span id="title_framework">Framework!</span> </div>
+    <div class="content_admin">
+        <div id="menu">
+            <div class="menu_title">${lang('admin', 'applications', 'Applications')}</div>
+            % for module, row in menu.items():
+                <a href="${make_url('admin/'+module)}">${module}</a>
+            % endfor
         </div>
-        <div id="logout">
-        <a href="">Logout</a>
+        <div class="contents">
+            <%block name="content">
+            </%block>
         </div>
-
-        <div id="center_body">
-            <div id="header"><span id="title_phango">Phango</span> <span id="title_framework">Framework!</span> <?php echo $title; ?></div>
-            <div class="content_admin">
-                <div id="menu">
-                    <div class="menu_title">Applications</div>
-                </div>
-                <div class="contents">
-                    {% block content %}
-                    {% endblock %}
-                </div>
-            </div>
-        </div>
-        <div id="loading_ajax">
-        </div>
-    </body>
-    </html>
+    </div>
+</div>
+<div id="loading_ajax">
+</div>
+</body>
+</html>

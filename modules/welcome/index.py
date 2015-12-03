@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from citoplasma.templates import ptemplate
+from citoplasma.mtemplates import ptemplate
 from citoplasma.urls import make_url
 from bottle import route, request
 from settings import config

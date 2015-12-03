@@ -1,4 +1,4 @@
-{%extends "admin/home.html" %}
-{% block content %}
-{{content|safe}}
-{% endblock %}
+<%inherit file="home.html" />
+<%block name="content">
+${content_index|n}
+</%block>
