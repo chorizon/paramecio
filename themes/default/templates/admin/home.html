@@ -25,10 +25,11 @@ ${HeaderHTML.header_home()|n}
         <div id="menu">
             <div class="menu_title">${lang('admin', 'applications', 'Applications')}</div>
             % for module, row in menu.items():
-                <a href="${make_url('admin/'+module)}">${module}</a>
+                <a href="${make_url('admin/'+module)}">${row[1]}</a>
             % endfor
         </div>
         <div class="contents">
+            <h1>${title}</h1>
             <%block name="content">
             </%block>
         </div>

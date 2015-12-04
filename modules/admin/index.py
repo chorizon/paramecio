@@ -7,6 +7,7 @@ from citoplasma.urls import make_url, add_get_parameters
 from citoplasma.sessions import get_session
 from bottle import get,post
 from settings import config
+from settings import config_admin
 from citoplasma.lists import SimpleList
 from citoplasma.generate_admin_class import GenerateAdminClass
 from citoplasma.httputils import GetPostFiles
@@ -27,65 +28,6 @@ load_lang('admin', 'common')
 def home(module=''):
     
     t.clean_header_cache()
-    
-    """
-    s=args['session']
-    #print(s['test'])
-    s['test'] = s.get('test', 0)+1
-    
-    print(s['test'])
-    
-    #del s['test']
-    
-    #s.save()
-    
-    s['test'] = 'pepe'
-    s.save()
-    """
-    
-    """
-    s = request.environ.get('paramecio.session')
-    s['test'] = 'pepe' #s.get('test',0) + 1
-    s.save()
-    """
-    #return 'Test counter: %d' % s['test']
-    
-    #user_admin.insert({'username': 'pepe', 'password': 'pitorro', 'token_recovery': 'vaamoos'}, False)
-    
-    #Load modules and submodules and make menu
-    #Pass environment to login class
-    """
-    s = request.environ.get('beaker.session')
-    
-    if 'login' not in s:
-        return t.load_template('admin/content.html', title="Welcome to "+args['module'], content='No logueado')"""
-    """
-    list_user=SimpleList(user_admin, '', t)
-    
-    list_user.url=make_url('admin/welcome', {})
-    
-    list_user.fields_showed=['username', 'password']
-    
-    list_user.search_fields=['username']
-    """
-    #list_user.fields=['id']
-    
-    #list_user.set_fields_no_showed(['id'])
-    
-    #list_user.begin_page=request.query.begin_page
-    """
-    url=make_url('admin/welcome', {})
-    
-    admin=GenerateAdminClass(user_admin, url, t)
-    
-    #admin.list=SimpleList(user_admin, '', t)
-    
-    admin.list.fields_showed=['username', 'password']
-    
-    admin.list.search_fields=['username']
-    
-    admin.list.limit_pages=5
-    """
     
     #check if login
     
@@ -109,19 +51,19 @@ def home(module=''):
                 
                 menu={}
                 
-                for key, mod in config.modules_admin.items():
+                for key, mod in config_admin.modules_admin.items():
                     menu[key]=mod
-                
-                if module in config.modules_admin:
+                    
+                if module in config_admin.modules_admin:
                     
                     #Load module
                     
-                    new_module=import_module(menu[module])
+                    new_module=import_module(menu[module][0])
                     
                     if config.reloader:
                         reload(new_module)
                     
-                    return t.load_template('admin/content.html', title=I18n.lang('admin', 'admin_module', "Admin ")+module, content_index=new_module.admin(t), menu=menu)
+                    return t.load_template('admin/content.html', title=menu[module][1], content_index=new_module.admin(t), menu=menu)
                     
                 else:
                     return t.load_template('admin/index.html', title=I18n.lang('admin', 'welcome_to_paramecio', "Welcome to Paramecio Admin!!!"), menu=menu)
@@ -157,16 +99,6 @@ def home(module=''):
             forms=show_form(post, user_admin.forms, t, yes_error=False)
 
             return t.load_template('admin/register.phtml', forms=forms)
-
-@get('/'+config.admin_folder+'/mako')
-def mako():
-    user_admin=UserAdmin()
-    
-    user_admin.create_forms()
-    
-    mytemplate = Template(filename='prueba.html')
-    
-    return mytemplate.render(forms=user_admin.forms)
 
 @post('/'+config.admin_folder+'/login')
 def login():
@@ -229,6 +161,8 @@ def register():
         GetPostFiles.post.get('password', '')
         
         if GetPostFiles.post['password']==GetPostFiles.post['repeat_password']:
+        
+            user_admin.valid_fields=['username', 'email', 'password', 'privileges']
         
             if user_admin.insert(GetPostFiles.post, False):
             

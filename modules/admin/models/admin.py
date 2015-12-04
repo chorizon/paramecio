@@ -1,9 +1,24 @@
 #!/usr/bin/python3
 
+from citoplasma.i18n import I18n
 from cromosoma.webmodel import WebModel
 from cromosoma import corefields
 from cromosoma.extrafields.emailfield import EmailField
 from cromosoma.extrafields.passwordfield import PasswordField
+
+class PrivilegesField(corefields.IntegerField):
+    pass
+
+    def show_formatted(self, value):
+        
+        value=int(value)
+        
+        if value==0:
+            return I18n.lang('admin', 'without_privileges', 'Without privileges')
+        elif value==1:
+            return I18n.lang('admin', 'selected_privileges', 'Selected privileges')
+        elif value==2:
+            return I18n.lang('admin', 'administrator', 'Administrator')
 
 class UserAdmin(WebModel):
     
@@ -25,7 +40,7 @@ class UserAdmin(WebModel):
 
         self.register(corefields.CharField('token_recovery'))
 
-        self.register(corefields.BooleanField('privileges'))
+        self.register(PrivilegesField('privileges'))
 
 """
 

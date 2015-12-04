@@ -40,8 +40,6 @@ default_module="welcome"
 
 modules=['welcome']
 
-modules_admin=[]
-
 #Activate sessions?
 
 session_enabled=True

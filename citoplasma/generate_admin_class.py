@@ -34,7 +34,13 @@ class GenerateAdminClass:
         
         self.no_delete=False
         
+        self.title=''
+        
         self.id=0
+        
+        self.template_insert='utils/insertform.phtml'
+        
+        self.template_admin='utils/admin.phtml'
 
     def show(self):
         
@@ -59,7 +65,7 @@ class GenerateAdminClass:
             
             form=show_form(post, self.model.forms, self.t, False)
                 
-            return self.t.load_template('utils/insertform.phtml', admin=self, form=form, model=self.model, id=GetPostFiles.get['id'])
+            return self.t.load_template(self.template_insert, admin=self, form=form, model=self.model, id=GetPostFiles.get['id'])
         
         elif GetPostFiles.get['op_admin']=='2':
             
@@ -88,7 +94,7 @@ class GenerateAdminClass:
             else:
 
                 form=show_form(post, self.model.forms, self.t, True)
-                return self.t.load_template('utils/insertform.phtml', admin=self, form=form, model=self.model)
+                return self.t.load_template(self.template_insert, admin=self, form=form, model=self.model, id=GetPostFiles.get['id'])
 
             
             pass
@@ -102,5 +108,5 @@ class GenerateAdminClass:
                 redirect(self.url)
     
         else:
-            return self.t.load_template('utils/admin.phtml', admin=self)
+            return self.t.load_template(self.template_admin, admin=self)
 
