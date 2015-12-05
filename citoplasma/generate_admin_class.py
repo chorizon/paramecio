@@ -57,15 +57,18 @@ class GenerateAdminClass:
             if len(self.model.forms)==0:
                 self.model.create_forms(self.arr_fields_edit)
             
+            title_edit=I18n.lang('common', 'add_new_item', 'Add new item')
+            
             if GetPostFiles.get['id']!='0':
                 post=self.model.select_a_row(GetPostFiles.get['id'])
+                title_edit=I18n.lang('common', 'edit_new_item', 'Edit item')
             
             if post==None:
                 post={}
             
             form=show_form(post, self.model.forms, self.t, False)
                 
-            return self.t.load_template(self.template_insert, admin=self, form=form, model=self.model, id=GetPostFiles.get['id'])
+            return self.t.load_template(self.template_insert, admin=self, title_edit=title_edit, form=form, model=self.model, id=GetPostFiles.get['id'])
         
         elif GetPostFiles.get['op_admin']=='2':
             
