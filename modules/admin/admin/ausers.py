@@ -26,6 +26,6 @@ def admin(t):
     
     admin.list.search_fields=['username']
     
-    admin.list.limit_pages=5
+    #admin.list.limit_pages=5
     
     return admin.show()

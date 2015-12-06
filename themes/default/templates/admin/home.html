@@ -24,8 +24,12 @@ ${HeaderHTML.header_home()|n}
     <div class="content_admin">
         <div id="menu">
             <div class="menu_title">${lang('admin', 'applications', 'Applications')}</div>
-            % for module, row in menu.items():
-                <a href="${make_url('admin/'+module)}">${row[1]}</a>
+            % for module in sorted(menu):
+                % if type(menu[module]).__name__=='list':
+                    <a href="${make_url('admin/'+module)}">${menu[module][0]}</a>
+                % else:
+                    <div class="father_admin">${menu[module]}</div>
+                % endif
             % endfor
         </div>
         <div class="contents">

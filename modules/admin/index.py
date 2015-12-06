@@ -15,6 +15,7 @@ from cromosoma.formsutils import show_form, pass_values_to_form
 from cromosoma.coreforms import PasswordForm
 from importlib import import_module, reload
 from bottle import redirect
+from collections import OrderedDict
 
 #from citoplasma.login import LoginClass
 # Check login
@@ -49,21 +50,28 @@ def home(module=''):
                 
                 #Load menu
                 
-                menu={}
+                menu=OrderedDict()
                 
                 for key, mod in config_admin.modules_admin.items():
-                    menu[key]=mod
-                    
-                if module in config_admin.modules_admin:
+                    if type(mod[1]).__name__!='dict':
+                        menu[key]=mod
+                    else:
+                        menu[key]=mod[0]
+                        
+                        for subkey, submod in mod[1].items():
+                            menu[subkey]=submod
+                            #pass
+                        
+                if module in menu:
                     
                     #Load module
                     
-                    new_module=import_module(menu[module][0])
+                    new_module=import_module(menu[module][1])
                     
                     if config.reloader:
                         reload(new_module)
                     
-                    return t.load_template('admin/content.html', title=menu[module][1], content_index=new_module.admin(t), menu=menu)
+                    return t.load_template('admin/content.html', title=menu[module][0], content_index=new_module.admin(t), menu=menu)
                     
                 else:
                     return t.load_template('admin/index.html', title=I18n.lang('admin', 'welcome_to_paramecio', "Welcome to Paramecio Admin!!!"), menu=menu)
@@ -81,6 +89,8 @@ def home(module=''):
         if c>0:
             
             post={}
+            
+            user_admin.yes_repeat_password=False
 
             user_admin.fields['password'].required=True
             
@@ -149,44 +159,26 @@ def register():
     c=user_admin.select_count()
     
     if c==0:
-    
+        
         GetPostFiles.obtain_post()
         
-        set_extra_forms_user(user_admin)
+        GetPostFiles.post['privileges']=2
         
-        GetPostFiles.post.append('privileges', 2)
+        user_admin.valid_fields=['username', 'email', 'password', 'privileges']
         
-        GetPostFiles.post.get('repeat_password', '')
+        user_admin.create_forms()
         
-        GetPostFiles.post.get('password', '')
+        if user_admin.insert(GetPostFiles.post, False):
         
-        if GetPostFiles.post['password']==GetPostFiles.post['repeat_password']:
-        
-            user_admin.valid_fields=['username', 'email', 'password', 'privileges']
-        
-            if user_admin.insert(GetPostFiles.post, False):
-            
-                error= {'error': 0}
-                
-            else:       
-                
-                error= {'error': 1}
-                
-                for field in user_admin.fields.values():
-                    
-                    error[field.name]=field.txt_error
-                
-                error['password_repeat']=""
-                
-                error['global']=user_admin.query_error
-                
-            #user_admin.fields['password'].protected=True
+            error= {'error': 0}
             
             return error
+        
         else:
             
-            #pass_values_to_form(GetPostFiles.post, arr_form, yes_error=True)
             user_admin.check_all_fields(GetPostFiles.post, False)
+            
+            pass_values_to_form(GetPostFiles.post, user_admin.forms, yes_error=True)
             
             error={'error': 1}
             
@@ -194,14 +186,14 @@ def register():
                     
                     error[field.name]=field.txt_error
             
-            error['password_repeat']=I18n.lang('common', 'password_no_match', 'Passwords doesn\'t match')
+            #error['password_repeat']=I18n.lang('common', 'password_no_match', 'Passwords doesn\'t match')
             
             return error
-    
+        
     else:
     
         return {'error': 1}
-
+        
 @get('/'+config.admin_folder+'/logout')
 def logout():
     
