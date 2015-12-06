@@ -86,9 +86,12 @@ class GenerateAdminClass:
                 
                 GetPostFiles.get['id']='0'
             
+            title_edit=I18n.lang('common', 'add_new_item', 'Add new item')
+                
+            
             if GetPostFiles.get['id']!='0':
                 insert_row=self.model.update
-                
+                title_edit=I18n.lang('common', 'edit_new_item', 'Edit item')
                 self.model.conditions=['WHERE `'+self.model.name+'`.`'+self.model.name_field_id+'`=%s', [GetPostFiles.get['id']]]
             
             if insert_row(post):
@@ -97,7 +100,7 @@ class GenerateAdminClass:
             else:
 
                 form=show_form(post, self.model.forms, self.t, True)
-                return self.t.load_template(self.template_insert, admin=self, form=form, model=self.model, id=GetPostFiles.get['id'])
+                return self.t.load_template(self.template_insert, admin=self, title_edit=title_edit, form=form, model=self.model, id=GetPostFiles.get['id'])
 
             
             pass

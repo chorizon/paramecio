@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from citoplasma.i18n import I18n
+from cromosoma.webmodel import WebModel
 from cromosoma.usermodel import UserModel
 from cromosoma import corefields
 from cromosoma.extrafields.emailfield import EmailField
