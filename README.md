@@ -1,2 +1,2 @@
-# A simple webframework based in Bottle and Jinja2 for create nice webapps
+# A simple webframework based in Bottle and Mako for create nice webapps
 
